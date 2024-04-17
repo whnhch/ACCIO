@@ -6,7 +6,7 @@ class MyDataset(Dataset):
       self.max_len=max_len
       
       self.x_raw, self.y_raw = x, y
-      self.x = tokenizer(x,y)
+      self.x = self.prepare_features(x,y)
 
     def __len__(self):
       return len(self.x)

@@ -35,7 +35,7 @@ if __name__ == "__main__":
     with open(args.data_path, 'w') as json_file:
         json.dump(data, json_file)
         
-    mydataset = MyDataset(data['x'],data['y'], tokenizer)
+    mydataset = MyDataset(data['x'],data['y'], args.max_seq, tokenizer)
     
     # Create a PyTorch Dataset
     dataset = torch.utils.data.TensorDataset(mydataset.x["input_ids"], mydataset.x["attention_mask"])
