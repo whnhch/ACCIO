@@ -24,10 +24,10 @@ class MyDataset(Dataset):
           max_length=self.max_len,
           truncation=True,
           padding="max_length"
+          return_tensors='pt'
       )
 
-      features = {}
+      features = []
       for key in sent_features:
-              features[key] = [[sent_features[key][i], sent_features[key][i+total]] for i in range(total)]
-          
+              features.append([[sent_features[key][i], sent_features[key][i+total]] for i in range(total)])
       return features

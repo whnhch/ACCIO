@@ -38,7 +38,7 @@ if __name__ == "__main__":
     mydataset = MyDataset(data['x'],data['y'], args.max_seq, tokenizer)
     
     # Create a PyTorch Dataset
-    dataset = torch.utils.data.TensorDataset(mydataset.x["input_ids"], mydataset.x["attention_mask"])
+    dataset = torch.utils.data.TensorDataset(mydataset.x[:,:]['input_ids'],mydataset.x[:,:]['attention_masks'])
 
     # Create a DataLoader
     dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)

@@ -71,7 +71,7 @@ def data_preprocessing(path:str, folder_names:list):
         except:
             continue
     
-    with open('dataset.json', 'w') as json_file:
+    with open('utils.dataset.json', 'w') as json_file:
         json.dump(result, json_file)
         
 if __name__ == "__main__":
