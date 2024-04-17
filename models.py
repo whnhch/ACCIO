@@ -11,7 +11,7 @@ class Similarity(nn.Module):
     def forward(self, x, y):
         return self.cos(x, y) / self.temp
     
-class model(nn.Module):
+class TabCSE(nn.Module):
     def __init__(self, model_name, temp):
         super().__init__()
         self.bert = AutoModel.from_pretrained(model_name)
