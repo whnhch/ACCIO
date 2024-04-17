@@ -15,7 +15,8 @@ class model(nn.Module):
     def __init__(self, model_name, temp):
         super().__init__()
         self.bert = AutoModel.from_pretrained(model_name)
-
+        self.sim = Similarity(temp)
+        
     def forward(self, x_input_ids, x_attention_mask):
         bs=len(x_input_ids)/2
         x_outputs = self.bert(x_input_ids, attention_mask=x_attention_mask)
