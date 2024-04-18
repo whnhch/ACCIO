@@ -6,7 +6,7 @@ from utils.data import MyDataset
 import sys 
 import random
 import argparse
-from models import model
+from models import TabCSE
 import torch.nn as nn
 import torch
 import json

@@ -29,5 +29,7 @@ class MyDataset(Dataset):
 
       features = []
       for key in sent_features:
-              features.append([[sent_features[key][i], sent_features[key][i+total]] for i in range(total)])
+        print(key)
+        for i in range(total):
+          features.append([sent_features[key][i], sent_features[key][i+total]])
       return features
