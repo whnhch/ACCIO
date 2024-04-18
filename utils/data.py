@@ -23,13 +23,11 @@ class MyDataset(Dataset):
           sentences,
           max_length=self.max_len,
           truncation=True,
-          padding="max_length",
+          padding="max_length"
           return_tensors='pt'
       )
 
       features = []
       for key in sent_features:
-        print(key)
-        for i in range(total):
-          features.append([sent_features[key][i], sent_features[key][i+total]])
+            features.append([[sent_features[key][i], sent_features[key][i+total]] for i in range(total)])
       return features
