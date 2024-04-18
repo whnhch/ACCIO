@@ -23,7 +23,7 @@ class MyDataset(Dataset):
           sentences,
           max_length=self.max_len,
           truncation=True,
-          padding="max_length"
+          padding="max_length",
           return_tensors='pt'
       )
 

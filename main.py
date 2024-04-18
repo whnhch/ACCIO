@@ -29,7 +29,7 @@ if __name__ == "__main__":
     
     model_name = args.model_name
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = model(model_name, args.temp)
+    model = TabCSE(model_name, args.temp)
 
     data={}
     with open(args.data_path, 'w') as json_file:
