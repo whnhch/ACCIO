@@ -17,9 +17,12 @@ class TabCSE(nn.Module):
         self.bert = AutoModel.from_pretrained(model_name)
         self.sim = Similarity(temp)
         
-    def forward(self, x_input_ids, x_attention_mask):
-        bs=len(x_input_ids)/2
-        x_outputs = self.bert(x_input_ids, attention_mask=x_attention_mask)
+    def forward(self, input_ids, attention_mask):
+        bs=len(input_ids)/2
+        input_ids = input_ids.view((-1, input_ids.size(-1))) # (bs * num_sent, len)
+        attention_mask = attention_mask.view((-1, attention_mask.size(-1))) # (bs * num_sent len)
+        
+        x_outputs = self.bert(input_ids, attention_mask=attention_mask)
 
         # Extract embeddings from the model outputs
         pooler_output = x_outputs.pooler_output
