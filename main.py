@@ -19,7 +19,7 @@ if __name__ == "__main__":
     parser.add_argument('--model_name', type=str, default='bert-base-uncased', help='Model name')
     parser.add_argument('--max_seq', type=int, default='64', help='Sequence length')
     parser.add_argument('--temp', type=float, default='0.2', help='Temperature for cse')
-    parser.add_argument('--data_path', type=str, default='/data/dataset.json', help='Dataset path')
+    parser.add_argument('--data_path', type=str, default='./utils/dataset.json', help='Dataset path')
 
     args = parser.parse_args()
     
