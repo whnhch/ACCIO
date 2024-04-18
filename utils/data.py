@@ -24,7 +24,6 @@ class MyDataset(Dataset):
           max_length=self.max_len,
           truncation=True,
           padding="max_length",
-          return_tensors='pt'
       )
 
       features = {}
