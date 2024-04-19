@@ -14,7 +14,7 @@ import json
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Table Inference Table Understanding")
     parser.add_argument('--lr', type=float, default=1e-5,help='Learning rate')
-    parser.add_argument('--e', type=int, default=3, help='The number of epochs')
+    parser.add_argument('--epochs', type=int, default=3, help='The number of epochs')
     parser.add_argument('--bs', type=int, default=32, help='Batch size')
     parser.add_argument('--model_name', type=str, default='bert-base-uncased', help='Model name')
     parser.add_argument('--max_seq', type=int, default='64', help='Sequence length')
@@ -47,11 +47,11 @@ if __name__ == "__main__":
     model.to(device)
     model.train()
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
     
-    for epoch in args.epochs:
+    for epoch in range(args.epochs):
         epoch_loss=0.0
-        
+
         for idx, batch in enumerate(dataloader):
             x_input_ids, x_attention_mask = batch
             x_input_ids, x_attention_mask = x_input_ids.to(device), x_attention_mask.to(device)
@@ -62,12 +62,12 @@ if __name__ == "__main__":
             labels = torch.arange(cos_sim.size(0)).long().to(device)
             loss_fct = nn.CrossEntropyLoss()
             loss = loss_fct(cos_sim, labels)
-            
-            optimizer.zero_grad()  
-            loss.backward() 
-            optimizer.step() 
-            
+
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
             if (idx + 1) % 300 == 0:
                 average_loss = epoch_loss / 300
-                print("Epoch [{}/{}], Iteration [{}/{}], Average Loss: {:.4f}".format(epoch + 1, args.epochs, idx+ 1, len(dataloader), average_loss))
+                print("Epoch [{}/{}], Iteration [{}/{}], Average Loss: {:.4f}".format(epoch + 1, epochs, idx+ 1, len(dataloader), average_loss))
                 epoch_loss = 0.0

@@ -12,20 +12,13 @@ def data_to_text(data: pd.DataFrame, nrows:int=10, ncols:int=10, add_sep:bool=Tr
     if data.shape[0] > nrows:
         data = data.iloc[:nrows, :]
         
-    linear_data=''
-    linear_data += " | ".join(data.columns)
+    linear_data=[]
+    special_token=''
+    if add_sep: special_token= " [SEP] " 
     
-    if add_sep:
-        linear_data += " [SEP] "
-    
-        for _, row in data.iterrows():
-            row_values = [str(value) for value in row]
-            linear_data += " | ".join(row_values) + " [SEP] "
-
-    else:
-       for _, row in data.iterrows():
-            row_values = [str(value) for value in row]
-            linear_data += " | ".join(row_values)
+    for column in data.columns:
+        column_values = " ".join(str(value) for value in data[column])
+        linear_data += f"{column} {column_values}{special_token}"
     
     return linear_data
 
@@ -34,14 +27,14 @@ def pivot_to_text(pivot: pd.DataFrame, nrows:int=10, ncols:int=10, add_sep:bool=
         pivot = pivot.iloc[:, :ncols]
     if pivot.shape[0] > nrows:
         pivot = pivot.iloc[:nrows, :]
-        
+
+    special_token=''
+    if add_sep: special_token= " [SEP] " 
+    
     linear_pivot = []
-    for _, row in pivot.iterrows():
-        linear_pivot.append(" | ".join([str(cell) for cell in row]))
-    if add_sep:
-        linear_pivot = " [SEP] ".join(linear_pivot)
-    else:
-        linear_pivot = " ".join(linear_pivot)
+    for column in pivot.columns:
+        column_values = " ".join(str(value) for value in pivot[column])
+        linear_pivot += f"{column} {column_values}{special_token}"
         
     return linear_pivot
 
