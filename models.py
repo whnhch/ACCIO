@@ -80,5 +80,5 @@ class TabCSEForClassification(nn.Module):
         x_outputs = self.tabcse(input_ids, attention_mask=attention_mask)
         pooler_output=self.pooler(attention_mask, x_outputs)
         
-        x = self.linear(pooler_output)         
+        x = self.linear(pooler_output) 
         return x
