@@ -34,6 +34,7 @@ class MyDataset(Dataset):
 class ViznetDataset(Dataset):
     def __init__(self, x, y, max_len, tokenizer):
       self.x = self.prepare_features(x, tokenizer)
+      self.max_len=max_len
       self.y = y
 
     def __len__(self):
