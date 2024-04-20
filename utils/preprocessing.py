@@ -15,11 +15,12 @@ def data_to_text(data: pd.DataFrame, nrows:int=10, ncols:int=10, add_sep:bool=Tr
     linear_data=[]
     special_token=''
     if add_sep: special_token= " [SEP] " 
-    
+
     for column in data.columns:
-        column_values = " ".join(str(value) for value in data[column])
-        linear_data += f"{column} {column_values}{special_token}"
-    
+        column_values = ' '.join([str(value) for value in data[column]])
+        linear_data.append(f"{column} {column_values} {special_token}")
+
+    linear_data = ''.join(linear_data)
     return linear_data
 
 def pivot_to_text(pivot: pd.DataFrame, nrows:int=10, ncols:int=10, add_sep:bool=True)->str:
@@ -33,9 +34,10 @@ def pivot_to_text(pivot: pd.DataFrame, nrows:int=10, ncols:int=10, add_sep:bool=
     
     linear_pivot = []
     for column in pivot.columns:
-        column_values = " ".join(str(value) for value in pivot[column])
-        linear_pivot += f"{column} {column_values}{special_token}"
-        
+        column_values = ' '.join([str(value) for value in pivot[column]])
+        linear_pivot.append(f"{column} {column_values} {special_token}")
+
+    linear_pivot = ''.join(linear_pivot)
     return linear_pivot
 
 def get_data_pivot_pair(data: pd.DataFrame, param: dict, nrows:int=10, ncols:int=10, add_sep:bool=True)->tuple:

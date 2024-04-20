@@ -68,3 +68,17 @@ class TabCSE(nn.Module):
 
         # Separate representation
         return pooler_output[:,0], pooler_output[:,1]
+    
+class TabCSEForClassification(nn.Module):
+    def __init__(self, tabcse, num_classes):
+        super().__init__()
+        self.tabcse = tabcse
+        self.linear = nn.Linear(768, num_classes)
+        self.pooler = Pooler('avg')
+        
+    def forward(self, input_ids, attention_mask):
+        x_outputs = self.tabcse(input_ids, attention_mask=attention_mask)
+        pooler_output=self.pooler(attention_mask, x_outputs)
+        
+        x = self.linear(pooler_output)         
+        return x
