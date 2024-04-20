@@ -33,8 +33,7 @@ class MyDataset(Dataset):
     
 class ViznetDataset(Dataset):
     def __init__(self, x, y, max_len, tokenizer):
-      self.x = self.prepare_features(x, tokenizer)
-      self.max_len=max_len
+      self.x = self.prepare_features(x, max_len, tokenizer)
       self.y = y
 
     def __len__(self):
@@ -43,10 +42,10 @@ class ViznetDataset(Dataset):
     def __getitem__(self, idx):
       return {'x': self.x[idx], 'y': self.y[idx]}
   
-    def prepare_features(self, x, tokenizer):
+    def prepare_features(self, x, max_len, tokenizer):
       sent_features = tokenizer(
           x,
-          max_length=self.max_len,
+          max_length=max_len,
           truncation=True,
           padding="max_length",
       )
