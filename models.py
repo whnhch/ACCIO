@@ -56,7 +56,8 @@ class TabCSE(nn.Module):
         
     def forward(self, input_ids, attention_mask):
         bs = input_ids.size(0)
-        dim_3 = input_ids.dim() == 3
+        dim_3 = (input_ids.dim() == 3)
+        
         if dim_3:
             input_ids = input_ids.view((-1, input_ids.size(-1))) # (bs * num_sent, len)
             attention_mask = attention_mask.view((-1, attention_mask.size(-1))) # (bs * num_sent len)
@@ -64,16 +65,12 @@ class TabCSE(nn.Module):
         x_outputs = self.bert(input_ids, attention_mask=attention_mask, return_dict=True)
 
         # Extract embeddings from the model outputs
-        pooler_output=self.pooler(attention_mask, x_outputs)
-        
-        if dim_3:
+        if not dim_3:
+            return self.pooler(attention_mask, x_outputs)
+        else:
+            pooler_output=self.pooler(attention_mask, x_outputs)
             pooler_output = pooler_output.view((bs, 2, pooler_output.size(-1))) # (bs, num_sent, hidden)
-
-        # Separate representation
-        if dim_3:
             return pooler_output[:,0], pooler_output[:,1]
-        
-        return pooler_output
     
 class TabCSEForClassification(nn.Module):
     def __init__(self, tabcse, num_classes):
@@ -84,7 +81,5 @@ class TabCSEForClassification(nn.Module):
         
     def forward(self, input_ids, attention_mask):
         x_outputs = self.tabcse(input_ids, attention_mask=attention_mask)
-        pooler_output=self.pooler(attention_mask, x_outputs)
-        
-        x = self.linear(pooler_output) 
+        x = self.linear(x_outputs) 
         return x
