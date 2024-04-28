@@ -1,1 +1,0 @@
-#TODO make a loss function
